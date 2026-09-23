@@ -1,0 +1,252 @@
+---
+import Base from '../../layouts/Base.astro';
+import settings from '../../content/artist2-settings/main.json';
+
+const navLinks = [
+  { label: 'Home', href: '/' },
+  { label: 'Work', href: '/projects/' },
+  { label: 'About', href: '/about/' },
+];
+
+type ProjectFrontmatter = {
+  title: string;
+  year: string;
+  medium: string;
+  shortDesc: string;
+  coverImage: string;
+  images: { src: string; alt: string; caption?: string }[];
+};
+
+const projectFiles = await Astro.glob<ProjectFrontmatter>('../../content/artist2-projects/*.md');
+const artist2Projects = projectFiles
+  .map((f) => ({
+    id: f.file.split('/').pop()!.replace('.md', ''),
+    ...f.frontmatter,
+  }))
+  .sort((a, b) => Number(b.year) - Number(a.year));
+---
+
+<Base
+  title={`Projects — ${settings.artistName}`}
+  description={`Selected photographic and installation projects by ${settings.artistName}.`}
+  navLogo={settings.artistName}
+  navLinks={navLinks}
+  navVariant="light"
+  navCtaText=""
+  hideFooter
+>
+  <!-- Page header -->
+  <section class="page-header">
+    <div class="container">
+      <div class="page-header__inner">
+        <div>
+          <p class="page-header__breadcrumb">
+            <a href="/">{settings.artistName}</a> / Work
+          </p>
+          <h1 class="page-header__title">Projects</h1>
+        </div>
+        <p class="page-header__count">{artist2Projects.length} projects</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Projects grid -->
+  <section class="section projects-section">
+    <div class="container">
+      <div class="projects-grid">
+        {artist2Projects.map((project, i) => (
+          <a href={`/projects/${project.id}/`} class="project-card">
+            <div class="project-card__image-wrap">
+              <img
+                src={project.coverImage}
+                alt={project.title}
+                width="800"
+                height="1000"
+                loading={i < 2 ? 'eager' : 'lazy'}
+                class="project-card__image"
+              />
+              <div class="project-card__overlay">
+                <span class="project-card__view">View Project →</span>
+              </div>
+            </div>
+            <div class="project-card__meta">
+              <h2 class="project-card__title">{project.title}</h2>
+              <div class="project-card__details">
+                <span class="project-card__year">{project.year}</span>
+                <span class="project-card__sep" aria-hidden="true">·</span>
+                <span class="project-card__medium">{project.medium}</span>
+              </div>
+              <p class="project-card__desc">{project.shortDesc}</p>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  /* ── Page header ─────────────────────────────── */
+  .page-header {
+    background: #f7f4f0;
+    padding-block: 3rem 2rem;
+    border-bottom: 1px solid #e2ddd8;
+  }
+
+  .page-header__inner {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .page-header__breadcrumb {
+    font-size: 0.8rem;
+    color: #8a7e76;
+    margin-bottom: 0.5rem;
+    max-width: none;
+  }
+
+  .page-header__breadcrumb a {
+    color: #8a7e76;
+    transition: color 0.2s ease;
+  }
+
+  .page-header__breadcrumb a:hover {
+    color: #c44b2c;
+  }
+
+  .page-header__title {
+    font-family: var(--font-heading);
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    color: #1a1614;
+    line-height: 1;
+    margin: 0;
+  }
+
+  .page-header__count {
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #8a7e76;
+    margin: 0;
+    white-space: nowrap;
+  }
+
+  /* ── Projects grid ───────────────────────────── */
+  .projects-section {
+    background: #f7f4f0;
+  }
+
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 4rem 3rem;
+  }
+
+  .project-card {
+    display: block;
+    text-decoration: none;
+  }
+
+  .project-card__image-wrap {
+    position: relative;
+    overflow: hidden;
+    border-radius: 4px;
+    aspect-ratio: 4 / 5;
+    margin-bottom: 1.25rem;
+    background: #ede9e4;
+  }
+
+  .project-card__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.65s ease;
+  }
+
+  .project-card:hover .project-card__image {
+    transform: scale(1.04);
+  }
+
+  .project-card__overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(26, 22, 20, 0.45);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .project-card:hover .project-card__overlay {
+    opacity: 1;
+  }
+
+  .project-card__view {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #f7f4f0;
+    letter-spacing: 0.05em;
+    padding: 0.6rem 1.4rem;
+    border: 1px solid rgba(247, 244, 240, 0.6);
+    border-radius: 2rem;
+  }
+
+  .project-card__title {
+    font-family: var(--font-heading);
+    font-size: clamp(1.3rem, 2vw, 1.6rem);
+    color: #1a1614;
+    margin-bottom: 0.4rem;
+    transition: color 0.2s ease;
+  }
+
+  .project-card:hover .project-card__title {
+    color: #c44b2c;
+  }
+
+  .project-card__details {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .project-card__year {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #c44b2c;
+  }
+
+  .project-card__sep {
+    color: #8a7e76;
+    font-size: 0.75rem;
+  }
+
+  .project-card__medium {
+    font-size: 0.8rem;
+    color: #8a7e76;
+    letter-spacing: 0.02em;
+  }
+
+  .project-card__desc {
+    font-size: 0.9rem;
+    color: #8a7e76;
+    line-height: 1.65;
+    margin: 0;
+    max-width: 48ch;
+  }
+
+
+  /* ── Responsive ──────────────────────────────── */
+  @media (max-width: 768px) {
+    .projects-grid {
+      grid-template-columns: 1fr;
+      gap: 3rem;
+    }
+
+  }
+</style>

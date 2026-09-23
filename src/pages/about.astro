@@ -1,0 +1,356 @@
+---
+import Base from '../layouts/Base.astro';
+import settings from '../content/artist2-settings/main.json';
+
+const {
+  artistName,
+  discipline,
+  aboutPhoto,
+  aboutPhotoCaption,
+  aboutLead,
+  aboutBody,
+  contactEmail,
+  exhibitions,
+  press,
+} = settings;
+
+const [firstName, ...lastNameParts] = artistName.split(' ');
+const lastName = lastNameParts.join(' ');
+
+const navLinks = [
+  { label: 'Home', href: '/' },
+  { label: 'Work', href: '/projects/' },
+  { label: 'About', href: '/about/' },
+];
+---
+
+<Base
+  title={`About — ${artistName}`}
+  description={`${artistName} is a ${discipline.toLowerCase()} working with long-exposure photography, found objects, and site-specific installation.`}
+  navLogo={artistName}
+  navLinks={navLinks}
+  navVariant="light"
+  navCtaText=""
+  hideFooter
+>
+  <!-- About hero -->
+  <section class="about-hero">
+    <div class="container">
+      <div class="about-hero__inner">
+        <div class="about-hero__image-col">
+          <div class="about-hero__image-wrap">
+            <img
+              src={aboutPhoto}
+              alt={artistName}
+              width="680"
+              height="860"
+              loading="eager"
+              class="about-hero__image"
+            />
+          </div>
+          <div class="about-hero__image-caption">
+            {aboutPhotoCaption.split('\n').map((line, i) => (
+              <>{line}{i < aboutPhotoCaption.split('\n').length - 1 && <br />}</>
+            ))}
+          </div>
+        </div>
+        <div class="about-hero__content">
+          <span class="about-label">About</span>
+          <h1 class="about-hero__name">{firstName}<br />{lastName}</h1>
+          <p class="about-hero__lead">{aboutLead}</p>
+          {aboutBody.map((para) => (
+            <p class="about-hero__body">{para}</p>
+          ))}
+          <div class="about-hero__contact">
+            <span class="about-contact-label">Contact</span>
+            <a href={`mailto:${contactEmail}`} class="about-contact-email">{contactEmail}</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Exhibitions -->
+  <section class="section exhibitions-section">
+    <div class="container">
+      <div class="exhibitions__header">
+        <span class="about-label">Exhibitions</span>
+        <h2 class="exhibitions__title">Selected Shows</h2>
+      </div>
+      <div class="exhibitions-list">
+        {exhibitions.map((ex: { year: string; title: string; venue: string; location: string }) => (
+          <div class="exhibition-row">
+            <span class="exhibition-row__year">{ex.year}</span>
+            <div class="exhibition-row__body">
+              <h3 class="exhibition-row__title">{ex.title}</h3>
+              <p class="exhibition-row__venue">{ex.venue}, {ex.location}</p>
+            </div>
+            <span class="exhibition-row__arrow" aria-hidden="true">→</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Press -->
+  <section class="section press-section">
+    <div class="container">
+      <span class="about-label">Press</span>
+      <h2 class="press__title">Selected Reviews</h2>
+      <div class="press-grid">
+        {press.map((item: { quote: string; author: string; source: string }) => (
+          <blockquote class="press-card">
+            <p class="press-card__quote">"{item.quote}"</p>
+            <footer class="press-card__footer">
+              <strong>{item.author}</strong>
+              <span class="press-card__source">{item.source}</span>
+            </footer>
+          </blockquote>
+        ))}
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .about-label {
+    display: block;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #c44b2c;
+    margin-bottom: 0.75rem;
+  }
+
+  /* ── About hero ──────────────────────────────── */
+  .about-hero {
+    background: #f7f4f0;
+    padding-block: 4rem 4rem;
+  }
+
+  .about-hero__inner {
+    display: grid;
+    grid-template-columns: 1fr 1.1fr;
+    gap: 5rem;
+    align-items: start;
+  }
+
+  .about-hero__image-wrap {
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 0.75rem;
+  }
+
+  .about-hero__image {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .about-hero__image-caption {
+    font-size: 0.75rem;
+    color: #8a7e76;
+    line-height: 1.5;
+  }
+
+  .about-hero__name {
+    font-family: var(--font-heading);
+    font-size: clamp(2.5rem, 5vw, 4.5rem);
+    color: #1a1614;
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+    margin-bottom: 1.75rem;
+  }
+
+  .about-hero__lead {
+    font-family: var(--font-heading);
+    font-size: clamp(1.05rem, 1.8vw, 1.25rem);
+    font-style: italic;
+    color: #1a1614;
+    line-height: 1.6;
+    margin-bottom: 1.25rem;
+    max-width: none;
+  }
+
+  .about-hero__body {
+    font-size: 0.95rem;
+    color: #3a3330;
+    line-height: 1.85;
+    margin-bottom: 1rem;
+    max-width: 62ch;
+  }
+
+  .about-hero__contact {
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid #e2ddd8;
+  }
+
+  .about-contact-label {
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #8a7e76;
+    display: block;
+    margin-bottom: 0.4rem;
+  }
+
+  .about-contact-email {
+    font-size: 1rem;
+    font-weight: 500;
+    color: #1a1614;
+    border-bottom: 1px solid #1a1614;
+    padding-bottom: 0.05em;
+    transition: color 0.2s ease, border-color 0.2s ease;
+  }
+
+  .about-contact-email:hover {
+    color: #c44b2c;
+    border-color: #c44b2c;
+  }
+
+  /* ── Exhibitions ─────────────────────────────── */
+  .exhibitions-section {
+    background: #f7f4f0;
+  }
+
+  .exhibitions__header {
+    margin-bottom: 2rem;
+  }
+
+  .exhibitions__title {
+    font-family: var(--font-heading);
+    font-size: clamp(1.5rem, 3vw, 2.25rem);
+    color: #1a1614;
+    margin: 0;
+  }
+
+  .exhibitions-list {
+    border-top: 1px solid #e2ddd8;
+  }
+
+  .exhibition-row {
+    display: grid;
+    grid-template-columns: 3.5rem 1fr auto;
+    align-items: center;
+    gap: 2rem;
+    padding: 1.25rem 0;
+    border-bottom: 1px solid #e2ddd8;
+    transition: padding-left 0.2s ease;
+  }
+
+  .exhibition-row:hover {
+    padding-left: 0.5rem;
+  }
+
+  .exhibition-row__year {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #c44b2c;
+  }
+
+  .exhibition-row__title {
+    font-family: var(--font-heading);
+    font-size: 1rem;
+    color: #1a1614;
+    margin-bottom: 0.2rem;
+  }
+
+  .exhibition-row__venue {
+    font-size: 0.82rem;
+    color: #8a7e76;
+    margin: 0;
+    max-width: none;
+  }
+
+  .exhibition-row__arrow {
+    color: #e2ddd8;
+    font-size: 1rem;
+    transition: color 0.2s ease, transform 0.2s ease;
+  }
+
+  .exhibition-row:hover .exhibition-row__arrow {
+    color: #c44b2c;
+    transform: translateX(4px);
+  }
+
+  /* ── Press ───────────────────────────────────── */
+  .press-section {
+    background: #ede9e4;
+  }
+
+  .press__title {
+    font-family: var(--font-heading);
+    font-size: clamp(1.5rem, 3vw, 2.25rem);
+    color: #1a1614;
+    margin-bottom: 2.5rem;
+  }
+
+  .press-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+
+  .press-card {
+    background: #f7f4f0;
+    border-radius: 6px;
+    padding: 1.75rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 1.5rem;
+    margin: 0;
+  }
+
+  .press-card__quote {
+    font-family: var(--font-heading);
+    font-size: 0.975rem;
+    font-style: italic;
+    color: #1a1614;
+    line-height: 1.65;
+    margin: 0;
+    max-width: none;
+  }
+
+  .press-card__footer {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+  }
+
+  .press-card__footer strong {
+    font-size: 0.8rem;
+    color: #1a1614;
+  }
+
+  .press-card__source {
+    font-size: 0.75rem;
+    color: #8a7e76;
+  }
+
+  /* ── Responsive ──────────────────────────────── */
+  @media (max-width: 1024px) {
+    .about-hero__inner {
+      gap: 3rem;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .about-hero__inner {
+      grid-template-columns: 1fr;
+      gap: 2.5rem;
+    }
+
+    .press-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .exhibition-row {
+      grid-template-columns: 3rem 1fr auto;
+      gap: 1rem;
+    }
+  }
+</style>

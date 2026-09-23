@@ -1,0 +1,62 @@
+---
+import SEO from '../components/SEO.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description?: string;
+  ogImage?: string;
+  navLogo?: string;
+  navLinks?: { label: string; href: string }[];
+  navCtaText?: string;
+  navCtaHref?: string;
+  navVariant?: 'light' | 'dark' | 'transparent';
+  footerLogo?: string;
+  footerTagline?: string;
+  footerVariant?: 'light' | 'dark';
+  hideFooter?: boolean;
+}
+
+const {
+  title,
+  description,
+  ogImage,
+  navLogo,
+  navLinks,
+  navCtaText,
+  navCtaHref,
+  navVariant = 'light',
+  footerLogo,
+  footerTagline,
+  footerVariant = 'light',
+  hideFooter = false,
+} = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <SEO title={title} description={description} ogImage={ogImage} />
+  </head>
+  <body>
+    <Nav
+      logo={navLogo}
+      links={navLinks}
+      ctaText={navCtaText}
+      ctaHref={navCtaHref}
+      variant={navVariant}
+    />
+    <main id="main-content">
+      <slot />
+    </main>
+    {!hideFooter && (
+      <Footer
+        logo={footerLogo}
+        tagline={footerTagline}
+        variant={footerVariant}
+      />
+    )}
+  </body>
+</html>

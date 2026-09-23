@@ -1,0 +1,168 @@
+---
+interface Props {
+  logo?: string;
+  tagline?: string;
+  links?: { label: string; href: string }[];
+  socials?: { platform: string; href: string }[];
+  variant?: 'light' | 'dark';
+}
+
+const {
+  logo = 'Brand',
+  tagline = 'Building beautiful things for the web.',
+  links = [
+    { label: 'Home', href: '/' },
+    { label: 'About', href: '#about' },
+    { label: 'Work', href: '#work' },
+    { label: 'Contact', href: '#contact' },
+  ],
+  socials = [
+    { platform: 'Instagram', href: '#' },
+    { platform: 'Twitter', href: '#' },
+    { platform: 'LinkedIn', href: '#' },
+  ],
+  variant = 'light',
+} = Astro.props;
+
+const year = new Date().getFullYear();
+---
+
+<footer class={`footer footer--${variant}`}>
+  <div class="footer__inner container">
+    <div class="footer__brand">
+      <a href="/" class="footer__logo">{logo}</a>
+      <p class="footer__tagline">{tagline}</p>
+      <div class="footer__socials">
+        {socials.map((s) => (
+          <a href={s.href} class="footer__social-link" target="_blank" rel="noopener noreferrer" aria-label={s.platform}>
+            {s.platform}
+          </a>
+        ))}
+      </div>
+    </div>
+
+    <nav class="footer__nav" aria-label="Footer navigation">
+      {links.map((link) => (
+        <a href={link.href} class="footer__link">{link.label}</a>
+      ))}
+    </nav>
+  </div>
+
+  <div class="footer__bottom container">
+    <p class="footer__copyright">&copy; {year} {logo}. All rights reserved.</p>
+    <p class="footer__credits">Built with <a href="https://astro.build" target="_blank" rel="noopener">Astro</a></p>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    border-top: 1px solid var(--color-border);
+    padding-top: 4rem;
+  }
+
+  .footer--dark {
+    background-color: #111827;
+    border-top-color: rgba(255, 255, 255, 0.1);
+    color: #e5e7eb;
+  }
+
+  .footer--dark .footer__logo,
+  .footer--dark .footer__link,
+  .footer--dark .footer__social-link {
+    color: #fff;
+  }
+
+  .footer--dark .footer__tagline,
+  .footer--dark .footer__copyright,
+  .footer--dark .footer__credits {
+    color: #9ca3af;
+  }
+
+  .footer--dark .footer__bottom {
+    border-top-color: rgba(255, 255, 255, 0.1);
+  }
+
+  .footer__inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 3rem;
+    padding-bottom: 3rem;
+    flex-wrap: wrap;
+  }
+
+  .footer__logo {
+    font-family: var(--font-heading);
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--color-text);
+    display: block;
+    margin-bottom: 0.75rem;
+  }
+
+  .footer__tagline {
+    font-size: 0.9rem;
+    color: var(--color-muted);
+    max-width: 28ch;
+    margin-bottom: 1.25rem;
+  }
+
+  .footer__socials {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .footer__social-link {
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--color-brand);
+    transition: opacity var(--transition);
+  }
+
+  .footer__social-link:hover {
+    opacity: 0.7;
+  }
+
+  .footer__nav {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .footer__link {
+    font-size: 0.9rem;
+    color: var(--color-muted);
+    transition: color var(--transition);
+  }
+
+  .footer__link:hover {
+    color: var(--color-brand);
+  }
+
+  .footer__bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-block: 1.5rem;
+    border-top: 1px solid var(--color-border);
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .footer__copyright,
+  .footer__credits {
+    font-size: 0.8rem;
+    color: var(--color-muted);
+    max-width: none;
+  }
+
+  .footer__credits a {
+    color: var(--color-brand);
+    transition: opacity var(--transition);
+  }
+
+  .footer__credits a:hover {
+    opacity: 0.7;
+  }
+</style>

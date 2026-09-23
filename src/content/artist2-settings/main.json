@@ -1,0 +1,50 @@
+{
+  "heroImage": "https://placehold.co/1800x1100/1a1614/f7f4f0?text=Keren+Setton",
+  "aboutPhotoCaption": "Keren Setton · Cape Town, 2024",
+  "press": [
+    {
+      "quote": "Hoffmann proves that photography can still surprise — these images are genuinely new.",
+      "source": "Aperture Foundation Blog",
+      "author": "Carmen Okafor"
+    }
+  ],
+  "heroCtaText": "View Work →",
+  "exhibitions": [
+    {
+      "title": "Things We Don't Notice",
+      "venue": "Deichtorhallen",
+      "location": "Hamburg, DE",
+      "year": "2022"
+    }
+  ],
+  "aboutPhoto": "https://placehold.co/680x860/1a1614/f7f4f0?text=Keren+Setton",
+  "socials": [
+    {
+      "label": "Instagram",
+      "href": "#"
+    },
+    {
+      "label": "Vimeo",
+      "href": "#"
+    },
+    {
+      "label": "Twitter / X",
+      "href": "#"
+    },
+    {
+      "label": "Are.na",
+      "href": "#"
+    }
+  ],
+  "aboutLead": "I'm a photographer and installation artist based in Berlin. My work investigates attention — what we see when we truly stop to look, and what slips past us in the ordinary flow of a day.",
+  "aboutBody": [
+    "Born in Munich in 1989, I studied Fine Art at the Hochschule für Bildende Künste in Hamburg and Photography at the Royal College of Art in London, where I received my MA in 2015. I have lived and worked in Berlin since 2016.",
+    "My photographic practice is built on sustained, slow observation. I often return to a location dozens of times before making an image. The final photographs are typically long exposures — anywhere from four minutes to half an hour — made with available light only. The resulting images hover between documentation and abstraction, between the familiar and the strange.",
+    "My installation work begins from photography but expands into physical space, often incorporating found objects and architectural intervention. Both practices share a preoccupation with the overlooked: the things in our peripheral vision that accumulate into the texture of lived experience.",
+    "I have exhibited internationally and my work is held in several private collections in Germany and Switzerland. I am represented in Europe by Galerie Nord Tiergarten, Berlin."
+  ],
+  "discipline": "Artist",
+  "artistName": "Keren Setton",
+  "location": "Cape Town, South Africa",
+  "contactEmail": "studio@kerensetton.com"
+}
